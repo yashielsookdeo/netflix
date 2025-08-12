@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowseContainer } from '../containers/browse';
-import { useContent } from '../hooks';
+import useTMDBContent from '../hooks/use-tmdb-content';
 import { selectionFilter } from '../utils';
 
 export default function Browse() {
-  const { series } = useContent('series');
-  const { films } = useContent('films');
+  const { series } = useTMDBContent('series');
+  const { films } = useTMDBContent('films');
   const slides = selectionFilter({ series, films });
 
   return <BrowseContainer slides={slides} />;

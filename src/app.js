@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { Home, Browse, SignIn, SignUp } from './pages';
 import * as ROUTES from './constants/routes';
 import { IsUserRedirect, ProtectedRoute } from './helpers/routes';
-import { useAuthListener } from './hooks';
+import useCognitoAuthListener from './hooks/use-cognito-auth-listener';
 
 export function App() {
-  const { user } = useAuthListener();
+  const { user } = useCognitoAuthListener();
 
   return (
     <Router>

@@ -97,6 +97,11 @@ export const SearchIcon = styled.button`
     filter: brightness(0) invert(1);
     width: 16px;
   }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 `;
 
 export const ButtonLink = styled(ReachRouterLink)`

@@ -1,4 +1,5 @@
 import React, { useState, useContext, createContext } from 'react';
+import { tmdbApi } from '../../lib/tmdb';
 
 import {
   Container,
@@ -78,8 +79,13 @@ Card.Image = function CardImage({ ...restProps }) {
 Card.Feature = function CardFeature({ children, category, ...restProps }) {
   const { showFeature, itemFeature, setShowFeature } = useContext(FeatureContext);
 
+  // Get backdrop image URL from TMDB or fallback to local images
+  const backdropUrl = itemFeature?.backdrop_path
+    ? tmdbApi.getImageUrl(itemFeature.backdrop_path)
+    : `/images/${category}/${itemFeature?.genre}/${itemFeature?.slug}/large.jpg`;
+
   return showFeature ? (
-    <Feature {...restProps} src={`/images/${category}/${itemFeature.genre}/${itemFeature.slug}/large.jpg`}>
+    <Feature {...restProps} src={backdropUrl}>
       <Content>
         <FeatureTitle>{itemFeature.title}</FeatureTitle>
         <FeatureText>{itemFeature.description}</FeatureText>

@@ -61,6 +61,32 @@ export const Text = styled.p`
 export const Entities = styled.div`
   display: flex;
   flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+
+  /* Hide scrollbar for webkit browsers */
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  /* For Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 `;
 
 export const Meta = styled.div`
@@ -74,11 +100,13 @@ export const Meta = styled.div`
 export const Image = styled.img`
   border: 0;
   width: 100%;
-  max-width: 305px;
+  max-width: 200px;
+  min-width: 150px;
   cursor: pointer;
   height: auto;
   padding: 0;
   margin: 0;
+  object-fit: cover;
 `;
 
 export const Item = styled.div`
@@ -88,6 +116,9 @@ export const Item = styled.div`
   position: relative;
   cursor: pointer;
   transition: transform 0.2s;
+  flex-shrink: 0;
+  min-width: 150px;
+  max-width: 200px;
 
   &:hover {
     transform: scale(1.3);

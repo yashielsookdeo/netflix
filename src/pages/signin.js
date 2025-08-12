@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { FirebaseContext } from '../context/firebase';
+import { CognitoContext } from '../context/cognito';
 import { Form } from '../components';
 import { HeaderContainer } from '../containers/header';
 import { FooterContainer } from '../containers/footer';
@@ -8,7 +8,7 @@ import * as ROUTES from '../constants/routes';
 
 export default function SignIn() {
   const history = useHistory();
-  const { firebase } = useContext(FirebaseContext);
+  const { cognitoAuth } = useContext(CognitoContext);
 
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
@@ -19,9 +19,8 @@ export default function SignIn() {
   const handleSignin = (event) => {
     event.preventDefault();
 
-    return firebase
-      .auth()
-      .signInWithEmailAndPassword(emailAddress, password)
+    return cognitoAuth
+      .signIn(emailAddress, password)
       .then(() => {
         history.push(ROUTES.BROWSE);
       })

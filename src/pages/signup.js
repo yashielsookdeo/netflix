@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { FirebaseContext } from '../context/firebase';
+import { CognitoContext } from '../context/cognito';
 import { Form } from '../components';
 import { HeaderContainer } from '../containers/header';
 import { FooterContainer } from '../containers/footer';
@@ -8,7 +8,7 @@ import * as ROUTES from '../constants/routes';
 
 export default function SignUp() {
   const history = useHistory();
-  const { firebase } = useContext(FirebaseContext);
+  const { cognitoAuth } = useContext(CognitoContext);
 
   const [firstName, setFirstName] = useState('');
   const [emailAddress, setEmailAddress] = useState('');
@@ -20,19 +20,15 @@ export default function SignUp() {
   const handleSignup = (event) => {
     event.preventDefault();
 
-    return firebase
-      .auth()
-      .createUserWithEmailAndPassword(emailAddress, password)
-      .then((result) =>
-        result.user
-          .updateProfile({
-            displayName: firstName,
-            photoURL: Math.floor(Math.random() * 5) + 1,
-          })
-          .then(() => {
-            history.push(ROUTES.BROWSE);
-          })
-      )
+    return cognitoAuth
+      .signUp(emailAddress, password, firstName)
+      .then(() => {
+        // After successful signup, sign in the user
+        return cognitoAuth.signIn(emailAddress, password);
+      })
+      .then(() => {
+        history.push(ROUTES.BROWSE);
+      })
       .catch((error) => {
         setFirstName('');
         setEmailAddress('');
